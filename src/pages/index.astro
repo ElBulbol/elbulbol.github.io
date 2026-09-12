@@ -424,7 +424,7 @@ import TerminalMode from '../components/TerminalMode.astro';
   const personalConfirmationSubmit = document.querySelector('[data-personal-confirm-submit]') as HTMLButtonElement | null;
   const personalConfirmationStatus = document.querySelector('[data-personal-confirm-status]') as HTMLElement | null;
   const personalConfirmationCancel = document.querySelector('[data-personal-confirm-cancel]') as HTMLButtonElement | null;
-  const personalAudio = document.querySelector('[data-personal-audio]') as HTMLIFrameElement | null;
+  const personalAudio = document.querySelector('[data-personal-audio]') as HTMLAudioElement | null;
   const personalBackButtons = [...document.querySelectorAll('[data-personal-back]')] as HTMLElement[];
   const personalReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const personalTransitionDuration = personalReducedMotion ? 0 : 460;
@@ -483,7 +483,7 @@ import TerminalMode from '../components/TerminalMode.astro';
     });
   };
 
-  const enterPersonalMode = () => {
+  const enterPersonalMode = async () => {
     if (!personalMode || personalModeOpen) return;
     personalModeOpen = true;
     window.clearTimeout(personalModeTimer);
@@ -495,9 +495,17 @@ import TerminalMode from '../components/TerminalMode.astro';
     personalMode.hidden = false;
     personalMode.setAttribute('aria-hidden', 'false');
     hidePortfolioForPersonalMode();
-    if (personalAudio && !personalAudio.dataset.started) {
-      personalAudio.src = personalAudio.dataset.src || '';
-      personalAudio.dataset.started = 'true';
+    if (personalAudio) {
+      const personalVolumeControl = document.querySelector('[data-personal-volume]') as HTMLInputElement | null;
+      const startVolume = Number(personalVolumeControl?.value ?? 50) / 100;
+      personalAudio.currentTime = 0;
+      personalAudio.muted = false;
+      personalAudio.volume = startVolume;
+      try {
+        await personalAudio.play();
+      } catch {
+        // autoplay is intentionally gated behind the personal-mode confirmation click.
+      }
     }
 
     window.requestAnimationFrame(() => {
@@ -510,7 +518,11 @@ import TerminalMode from '../components/TerminalMode.astro';
     if (!personalMode || !personalModeOpen) return;
     personalModeOpen = false;
     personalMode.classList.remove('is-active');
-    if (personalAudio) personalAudio.src = '';
+    if (personalAudio) {
+      personalAudio.pause();
+      personalAudio.currentTime = 0;
+      personalAudio.muted = true;
+    }
     restorePortfolioAfterPersonalMode();
     personalMode.setAttribute('aria-hidden', 'true');
     personalModeTimer = window.setTimeout(() => { personalMode.hidden = true; }, personalTransitionDuration);
