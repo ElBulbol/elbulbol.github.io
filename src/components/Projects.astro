@@ -189,9 +189,22 @@ const normalProjects = projects.filter(p => !p.featured);
   .delay-1 { transition-delay: 150ms; }
 
   @media (max-width: 640px) {
+    .projects-section,
+    .projects-heading,
+    .projects-container,
+    .projects-list,
+    .projects-grid,
+    .project-wrapper {
+      box-sizing: border-box;
+      max-width: 100%;
+      min-width: 0;
+      width: 100%;
+    }
+
     .projects-heading { align-items: flex-start; flex-wrap: wrap; gap: 0.35rem 0.55rem; }
     .terminal-prompt { font-size: 0.78rem; padding-top: 0.35rem; }
     .heading-text { font-size: clamp(1.35rem, 7vw, 1.8rem); }
+    .projects-grid { grid-template-columns: 1fr; }
   }
 
   @media (prefers-reduced-motion: reduce) {

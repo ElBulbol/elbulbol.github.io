@@ -7,7 +7,24 @@ body {
   font-family: var(--font-mono);
   font-size: var(--font-size-base);
   line-height: var(--line-height);
+  max-width: 100%;
+  min-width: 0;
   overflow-x: hidden;
+}
+
+main#site-content {
+  box-sizing: border-box;
+  max-width: 100%;
+  min-width: 0;
+  width: 100%;
+}
+
+main#site-content > .mode-container,
+main#site-content > .mode-container > * {
+  box-sizing: border-box;
+  max-width: 100%;
+  min-width: 0;
+  width: 100%;
 }
 
 /* Global custom cursors are now handled by CustomCursor.astro */

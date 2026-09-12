@@ -52,13 +52,19 @@ const { project } = Astro.props;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem 0.75rem;
     margin-bottom: 1rem;
+    min-width: 0;
+    width: 100%;
   }
 
   .fp-header-left {
     display: flex;
     gap: 0.75rem;
     align-items: center;
+    flex-wrap: wrap;
+    min-width: 0;
   }
 
   .fp-category {
@@ -151,8 +157,32 @@ const { project } = Astro.props;
   }
 
   @media (max-width: 600px) {
+    .fp-header-wrapper,
+    .fp-header,
+    .fp-header-left,
+    .fp-date,
+    .fp-tech,
+    .fp-links,
+    .fp-footer-top {
+      box-sizing: border-box;
+      max-width: 100%;
+      min-width: 0;
+      width: 100%;
+    }
+
+    .fp-header,
+    .fp-footer-top {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
     .fp-title {
       font-size: var(--font-size-xl);
+    }
+
+    .fp-links {
+      flex-wrap: wrap;
+      gap: 0.5rem 0.75rem;
     }
   }
 </style>

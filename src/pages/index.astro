@@ -74,16 +74,24 @@ import TerminalMode from '../components/TerminalMode.astro';
 
   .mode-switch-btn {
     position: fixed;
-    top: 2rem;
-    left: 2rem;
+    top: 1rem;
+    left: 1rem;
     z-index: 100;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
     background: transparent;
     border: 1px solid var(--border);
     color: var(--text-muted);
-    padding: 0.5rem 1rem;
+    padding: 0.5rem 0.75rem;
     border-radius: var(--radius-structural);
     font-family: var(--font-mono);
     font-size: var(--font-size-sm);
+    line-height: 1.2;
+    max-width: calc(100vw - 2rem);
+    min-width: 0;
+    white-space: nowrap;
     transition: opacity 300ms ease, border-color var(--transition-instant), color var(--transition-instant);
     opacity: 0;
     pointer-events: none;
@@ -306,6 +314,12 @@ import TerminalMode from '../components/TerminalMode.astro';
   @media (max-width: 640px) {
     .hero { padding: 1.5rem; }
     .hero-name { font-size: clamp(3.4rem, 16vw, 6.25rem); letter-spacing: -.075em; }
+    .mode-switch-btn {
+      top: 0.75rem;
+      left: 0.75rem;
+      padding: 0.45rem 0.65rem;
+      font-size: 0.72rem;
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {
